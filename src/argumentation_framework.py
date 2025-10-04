@@ -156,7 +156,14 @@ class ArgumentationFramework:
             print(f"File not found. Setting all values to 0.5.")
             return {}
 
-    def generate_af_from_file(self, framework_text, order):
+    def modify_arguments_weights_without_modifying_file(self, args_list):
+        for arg, weight in args_list:
+            if arg in self.arguments:
+                self.arguments[arg].weight = weight
+            else:
+                print("Argument. ", arg, " -> not in arguments")
+                
+    def generate_af_from_file(self, framework_text, order=""):
         # Define structures to hold parsed data
 
         default_base_score = 0.5

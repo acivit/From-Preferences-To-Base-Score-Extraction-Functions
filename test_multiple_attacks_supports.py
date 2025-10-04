@@ -4,16 +4,14 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, Normalize
 from matplotlib.ticker import MaxNLocator
 import seaborn as sns
-from raw_argumentation.argumentation_framework import ArgumentationFramework
+from src.argumentation_framework import ArgumentationFramework
 
 import numpy as np
-
 from scipy.interpolate import griddata
-
 from mpl_toolkits.mplot3d import Axes3D
 import plotly.graph_objects as go
-
 from decimal import Decimal
+import os
 
 
 def plot_interpolated_grid(x, y, values, sem, grid_resolution=100):
@@ -63,8 +61,6 @@ def plot_mesh(base_scores, strengths, aggregations, diff_strengths, sem):
         base_scores, aggregations, diff_strengths, levels=100, cmap="viridis"
     )
 
-    # ax[0].colorbar(label='Z value')
-    # plt.tight_layout()
     ax[0].set_ylabel("Final strength")
     ax[1].set_ylabel("Aggregations")
     ax[0].set_xlabel("Base Score")
@@ -78,11 +74,7 @@ def plot_mesh(base_scores, strengths, aggregations, diff_strengths, sem):
     # Shared colorbar on the right
     cbar = fig.colorbar(c1, ax=ax, orientation="vertical", fraction=0.025, pad=0.04)
     cbar.set_label("Differential final strength")
-    # plt.title("Sensibility of the final strength for different base scores and aggregations")
-    # cbar = plt.colorbar(c1)
-    # cbar.set_label('Differential final strength')
-    # cbar2 = plt.colorbar(c2)
-    # cbar2.set_label('Differential final strength')
+
     plt.savefig(
         f"compared_influences/color_plot_aggregation_influence_{sem[:3]}.png",
         dpi=600,
@@ -181,7 +173,7 @@ def compute_aggregation_and_final_strengths(semantics, af, n_args):
             # af.change_argument_weight(arg_file, [("t_2_1", 1), ("t_1_1", 1)])
             # weight = 2.2
             # af.set_all_argument_weights_to_value(weight)
-            qbaf = af.solve_qbaf(semantics=semantics)
+            qbaf = af.get_final_strengths(semantics=semantics)
             final_strengths_repeat = qbaf.final_strengths
         
 
@@ -320,23 +312,14 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
     )
 
     # Save interactive HTML
-    fig.write_html(f"interactive_3d_scatter_{sem}_{title_extra}.html")
-
-    # Show in browser
-    # fig.show()
-
-    #plot_interpolated_grid(base_scores, strengths, diffs_list, sem)
-
-    #plot_mesh(base_scores, strengths, aggregations_list, diffs_list, sem)
+    if os.path.exists("interactive_web_plots") is False:
+        os.mkdir("interactive_web_plots")
+    fig.write_html(f"interactive_web_plots/3d_scatter_{sem}_{title_extra}.html")
 
     plt.figure(figsize=(8,3))
     plt.xlim(-0.15, 1.15)
     norm_pos = Normalize(vmin=0, vmax=1)   # for positive values
     norm_neg = Normalize(vmin=0, vmax=1)  # for negative values
-    #cmap_pos = plt.cm.Blues(np.linspace(0.3, 1, 256))  # skip very light blues
-    #cmap_neg = plt.cm.Reds(np.linspace(0.3, 1, 256))   # skip very light reds
-    #cmap_pos = ListedColormap(cmap_pos)
-    #cmap_neg = ListedColormap(cmap_neg)
     cmap_pos = crop_cmap(plt.cm.Blues, 0.3, 0.8)  # Blue in moderate range
     cmap_neg = crop_cmap(plt.cm.Reds, 0.3, 0.8)   # Red in moderate range
     for aggregation, aggregation_line in aggregations_lines_dict.items():
@@ -486,6 +469,8 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
         pass
     plt.title(mod)
     plt.ylabel("Final Strength $(\sigma)$")  # +mod)
+    if os.path.exists("compared_influences") is False:
+        os.mkdir("compared_influences")
     plt.savefig(
         f"compared_influences/base_score_final_strength_{sem}_{title_extra}.png",
         dpi=600,
@@ -499,7 +484,42 @@ if __name__ == "__main__":
     af = ArgumentationFramework()
     af_multiple = ArgumentationFramework()
 
-    arg_file = "environments/model_influences/multiple_arguments.dl"
+    arg_file = """arg(e, 0.5)
+arg(D1, 0.5)
+arg(D2, 0.5)
+arg(D3, 0.5)
+arg(D4, 0.5)
+arg(D5, 0.5)
+arg(D6, 0.5)
+arg(D7, 0.5)
+arg(D8, 0.5)
+arg(CR1, 0.5)
+arg(CR2, 0.5)
+arg(CR3, 0.5)
+arg(CR4, 0.5)
+arg(CR5, 0.5)
+arg(CR6, 0.5)
+arg(CR7, 0.5)
+arg(CR8, 0.5)
+
+sup(D1, e)
+sup(D2, e)
+sup(D3, e)
+sup(D4, e)
+sup(D5, e)
+sup(D6, e)
+sup(D7, e)
+sup(D8, e)
+att(CR1, e)
+att(CR2, e)
+att(CR3, e)
+att(CR4, e)
+att(CR5, e)
+att(CR6, e)
+att(CR7, e)
+att(CR8, e)"""
+
+    arg_file =  arg_file.splitlines()
 
     arguments = ["e"]
     supporting_arguments = ["D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8"]
@@ -526,28 +546,6 @@ if __name__ == "__main__":
 
         plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggregations_lines_dict, "single")
         plot_everything(base_scores_multiple, strengths_multiple, aggregations_list_multiple, diffs_list_multiple, aggregations_lines_dict_multiple, "multiple")
-#        fig = plt.figure()
-#        ax = fig.add_subplot(111, projection="3d")
-        # ax.scatter(base_score, list(aggregations.keys())[i], base_score_to_strength[base_score][current_value], color=diff)
-#        sc = ax.scatter(
-#            base_scores,
-#            aggregations_list,
-#            strengths,
-#            c=diffs_list,
-#            cmap="viridis",
-#            s=50,
-#        )
-
-        # Add colorbar as legend
-#        cbar = plt.colorbar(sc, ax=ax, pad=0.1)
-#        cbar.set_label("Slope")
-#        ax.set_xlabel("Base Score")
-#        ax.set_ylabel("Aggregation influence")
-#       ax.set_zlabel("Final Strength")
-
-        #plt.show()
-#        plt.close()
-
 
 
         
