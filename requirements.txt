@@ -1,0 +1,14 @@
+matplotlib
+streamlit
+numpy
+matplotlib
+scipy
+scikit-learn
+pandas
+plotly
+# Argumentation
+simpy
+networkx
+#pygraphviz
+seaborn
+sympy

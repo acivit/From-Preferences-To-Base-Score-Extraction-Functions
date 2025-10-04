@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  bsef:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: base_score_extraction_functions
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    restart: "no"
+    command: streamlit run show_base_scores.py
