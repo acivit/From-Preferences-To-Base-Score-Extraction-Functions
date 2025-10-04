@@ -55,3 +55,18 @@ Step 4. Run the code
 Launch the docker compose file
 
 ```docker-compose up --build``` or ```docker compose up --build``` depending on the Docker version.
+
+
+### Open the simulator
+
+Open a browser with the following address: ```http://localhost:8501```
+
+
+## Troubleshooting
+
+It might be possible that the installation of the package Quantitative-Bipolar-Argumentation is done in docker, but when launching the app it does not find it. As a temporary solution, it is recommended to execute the docker bash, following:
+
+1. Find the docker image name by using: ```docker images```
+2. Execute the docker bash using: ```sudo docker run -it -p 8501:8501 <name_of_the_image>```
+3. Launch the streamlit code by: ```streamlit run show_base_scores.py```
+4. Open the browser and paste the following address: ```http://localhost:8501``` 
