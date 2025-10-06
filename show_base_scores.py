@@ -6,7 +6,6 @@ import json
 
 from src.argumentation_framework import ArgumentationFramework
 
-
 # --- Plotting ---
 def plot_horizontal_bar(dot_positions, labels):
     fig, ax = plt.subplots(figsize=(8, 2))

@@ -15,18 +15,9 @@ This can be found at the file ```test_multiple_attacks_supports.py```.
 
 To run the code, it is necessary to have a new version of python (tested in 3.10) or docker (tested in 27.5.1)
 
-## Usage 
+## Installation 
 
-The first step is to activate the submodule [Quantitative-Bipolar-Argumentation](https://github.com/TimKam/Quantitative-Bipolar-Argumentation) git repository. 
-
-To do so, launch the file:
-
-```source install_qbaf.sh```
-
-If this does not work, please clone that repository in the root of this one.
-
-
-Then, it is required to choose whether to use a virtual environment or docker.
+It is required to choose whether to use a virtual environment or docker.
 
 ### Virtual environment
 
@@ -38,7 +29,13 @@ Step 2. Install the requirements
 
 ```pip install -r requirements.txt```
 
-Step 3. Install the Quantitative-Bipolar-Argumentation repo
+Step 3. Activate the submodule [Quantitative-Bipolar-Argumentation](https://github.com/TimKam/Quantitative-Bipolar-Argumentation) git repository. 
+
+To do so, launch the file:
+
+```source install_qbaf.sh```
+
+If this does not work (since the repository is anonymised it does not count as a github repo and the git submodules will not work), please clone that repository in the root of this one. Then:
 
 ```
 cd Quantitative-Bipolar-Argumentation
@@ -52,7 +49,15 @@ Step 4. Run the code
 
 ### Docker
 
-Launch the docker compose file
+Activate the submodule [Quantitative-Bipolar-Argumentation](https://github.com/TimKam/Quantitative-Bipolar-Argumentation) git repository. 
+
+To do so, launch the file:
+
+```source install_qbaf.sh```
+
+If this does not work (since the repository is anonymised it does not count as a github repo and the git submodules will not work), please clone that repository in the root of this one.
+
+Launch the docker compose file 
 
 ```docker-compose up --build``` or ```docker compose up --build``` depending on the Docker version.
 
@@ -70,3 +75,29 @@ It might be possible that the installation of the package Quantitative-Bipolar-A
 2. Execute the docker bash using: ```sudo docker run -it -p 8501:8501 <name_of_the_image>```
 3. Launch the streamlit code by: ```streamlit run show_base_scores.py```
 4. Open the browser and paste the following address: ```http://localhost:8501``` 
+
+## Usage Preview
+
+The general view of the app is the following:
+
+![Alt text](figures/preview.png "Title")
+
+The first step is to define the arguments and relations of the framework, in the standard format:
+
+![Alt text](figures/framework_config.gif "Framework Configuration")
+
+The second step is to define the preference ordering of the arguments:
+
+![Alt text](figures/preferences_config.gif "Preferences Configuration")
+
+The third step is to set the design choices to obtain the final base scores:
+
+![Alt text](figures/design_choices.gif "Design Choices")
+
+Finally, the base scores, decisions, and final strengths can be observed:
+
+![Alt text](figures/observation.png "Output Observation")
+
+The general view using the app is:
+
+![Alt text](figures/full_workflow.gif "Full Workflow")
