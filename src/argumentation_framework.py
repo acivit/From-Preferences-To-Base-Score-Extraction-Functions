@@ -157,9 +157,9 @@ class ArgumentationFramework:
             return {}
 
     def modify_arguments_weights_without_modifying_file(self, args_list):
-        for arg, weight in args_list:
+        for arg, base_score in args_list:
             if arg in self.arguments:
-                self.arguments[arg].weight = weight
+                self.arguments[arg].base_score = base_score
             else:
                 print("Argument. ", arg, " -> not in arguments")
                 
@@ -175,7 +175,7 @@ class ArgumentationFramework:
         # Read and parse the .dl file
         
         for line in framework_text:
-            print("Line read from text area: ", line)
+            # print("Line read from text area: ", line)
             # Strip whitespace and skip empty lines
             line = line.strip()
             if not line:

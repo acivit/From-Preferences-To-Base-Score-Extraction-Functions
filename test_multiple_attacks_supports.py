@@ -115,6 +115,8 @@ def compute_aggregation_and_final_strengths(semantics, af, n_args):
                 if agg > 0:
                     if n_args == 1:
                         number_of_arguments = int(agg) + 1
+                        if int(agg) == 1:
+                            number_of_arguments = 1
                         supports = supporting_arguments[:number_of_arguments]
                         af.activate_arguments(["e"] + supports)
                         cum_agg = agg.copy()
@@ -142,6 +144,8 @@ def compute_aggregation_and_final_strengths(semantics, af, n_args):
                 else:
                     if n_args == 1:
                         number_of_arguments = int(-agg) + 1
+                        if int(-agg) == 1:
+                            number_of_arguments = 1
                         attacks = attacking_arguments[:number_of_arguments]
                         af.activate_arguments(["e"] + attacks)
                         cum_agg = agg.copy()
@@ -320,14 +324,14 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
     plt.xlim(-0.15, 1.15)
     norm_pos = Normalize(vmin=0, vmax=1)   # for positive values
     norm_neg = Normalize(vmin=0, vmax=1)  # for negative values
-    cmap_pos = crop_cmap(plt.cm.Blues, 0.3, 0.8)  # Blue in moderate range
-    cmap_neg = crop_cmap(plt.cm.Reds, 0.3, 0.8)   # Red in moderate range
+    cmap_pos = crop_cmap(plt.cm.Blues, 0.1, 0.9)  # Blue in moderate range
+    cmap_neg = crop_cmap(plt.cm.Reds, 0.1, 0.9)   # Red in moderate range
     for aggregation, aggregation_line in aggregations_lines_dict.items():
         
         if aggregation > 0:
-            color = cmap_pos(norm_pos(abs(aggregation)))
+            color = cmap_pos(norm_pos(min(abs(aggregation) * 1.2, 1.0)))#cmap_pos(norm_pos(abs(aggregation))) #cmap_pos(norm_pos(min(abs(aggregation) * 1.2, 1.0)))#
         elif aggregation < 0:
-            color = cmap_neg(norm_neg(abs(aggregation)))
+            color = cmap_neg(norm_neg(min(abs(aggregation) * 1.2, 1.0)))#cmap_neg(norm_neg(abs(aggregation))) #cmap_neg(norm_neg(min(abs(aggregation) * 1.2, 1.0)))#
         else:
             color = "grey"
             
@@ -355,8 +359,8 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 if aggregation > 0:
                     plt.text(
                         -0.03,
-                        aggregation_line["strength"][0],  # + aggregation * offset,
-                        f"$\Sigma$={aggregation}",
+                        aggregation_line["strength"][0]-0.04,  # + aggregation * offset,
+                        rf"$\alpha$={aggregation}",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -366,7 +370,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     plt.text(
                         1.1,
                         aggregation_line["strength"][-1],  # + aggregation * offset,
-                        f"$\Sigma$={aggregation}",
+                        rf"$\alpha$={aggregation}",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -375,7 +379,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     plt.text(
                         0.52,
                         0.53,
-                        "$\Sigma$=0",
+                        r"$\alpha$=0",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -386,7 +390,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     plt.text(
                         -0.03,
                         aggregation_line["strength"][0] + aggregation * offset,
-                        f"$\Sigma$={aggregation}",
+                        rf"$\alpha$={aggregation}",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -396,7 +400,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     plt.text(
                         1.1,
                         aggregation_line["strength"][-1] + aggregation * offset,
-                        f"$\Sigma$={aggregation}",
+                        rf"$\alpha$={aggregation}",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -405,7 +409,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     plt.text(
                         0.52,
                         0.53,
-                        "$\Sigma$=0",
+                        r"$\alpha$=0",
                         fontsize=8,
                         verticalalignment="bottom",
                         horizontalalignment="right",
@@ -414,7 +418,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 plt.text(
                     0.48,
                     0.48,
-                    "$\Sigma$=0",
+                    r"$\alpha$=0",
                     fontsize=8,
                     verticalalignment="bottom",
                     horizontalalignment="right",
@@ -422,7 +426,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 plt.text(
                     0.34,
                     0.55,
-                    "$\Sigma$=>1",
+                    r"$\alpha$=>1",
                     fontsize=8,
                     verticalalignment="bottom",
                     horizontalalignment="right",
@@ -430,7 +434,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 plt.text(
                     0.42,
                     0.51,
-                    "$\Sigma$=0.5",
+                    r"$\alpha$=0.5",
                     fontsize=8,
                     verticalalignment="bottom",
                     horizontalalignment="right",
@@ -438,7 +442,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 plt.text(
                     0.54,
                     0.43,
-                    "$\Sigma$=-0.5",
+                    r"$\alpha$=-0.5",
                     fontsize=8,
                     verticalalignment="bottom",
                     horizontalalignment="right",
@@ -446,7 +450,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                 plt.text(
                     0.65,
                     0.39,
-                    "$\Sigma$=<-1",
+                    r"$\alpha$=<-1",
                     fontsize=8,
                     verticalalignment="bottom",
                     horizontalalignment="right",
@@ -454,7 +458,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
 
     
 
-    plt.xlabel(r"Base Score $(\tau)$")
+    plt.xlabel(r"Base Score $(\tau)$", fontsize=12)
     mod = ""
 
     if sem == "QuadraticEnergy_model":
@@ -468,7 +472,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
     else:
         pass
     plt.title(mod)
-    plt.ylabel("Final Strength $(\sigma)$")  # +mod)
+    plt.ylabel("Final Strength $(\sigma)$", fontsize=12)  # +mod)
     if os.path.exists("compared_influences") is False:
         os.mkdir("compared_influences")
     plt.savefig(

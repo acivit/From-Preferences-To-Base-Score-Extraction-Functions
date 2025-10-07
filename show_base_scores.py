@@ -92,7 +92,6 @@ att(f, o1)""",
             continue
         else:
             arguments_preferences.append(item)
-        print("Line read from text area: ", line)
 
     print("arguments_text: ", arguments_text)
     print("arguments_preferences: ", arguments_preferences)
