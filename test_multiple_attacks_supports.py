@@ -320,7 +320,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
         os.mkdir("interactive_web_plots")
     fig.write_html(f"interactive_web_plots/3d_scatter_{sem}_{title_extra}.html")
 
-    plt.figure(figsize=(8,3))
+    plt.figure(figsize=(8,5))
     plt.xlim(-0.15, 1.15)
     norm_pos = Normalize(vmin=0, vmax=1)   # for positive values
     norm_neg = Normalize(vmin=0, vmax=1)  # for negative values
@@ -350,7 +350,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
             offset = 0
         elif sem == "EulerBased_model":
             limit = 6
-            offset = 0.25
+            offset = 0.35
         else:
             limit = 2
             offset = 0.05
@@ -361,7 +361,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                         -0.03,
                         aggregation_line["strength"][0]-0.04,  # + aggregation * offset,
                         rf"$\alpha$={aggregation}",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
@@ -371,16 +371,16 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                         1.1,
                         aggregation_line["strength"][-1],  # + aggregation * offset,
                         rf"$\alpha$={aggregation}",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
                 else:
                     plt.text(
                         0.52,
-                        0.53,
+                        0.47,
                         r"$\alpha$=0",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
@@ -391,7 +391,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                         -0.03,
                         aggregation_line["strength"][0] + aggregation * offset,
                         rf"$\alpha$={aggregation}",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
@@ -401,16 +401,16 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                         1.1,
                         aggregation_line["strength"][-1] + aggregation * offset,
                         rf"$\alpha$={aggregation}",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
                 else:
                     plt.text(
                         0.52,
-                        0.53,
+                        0.47,
                         r"$\alpha$=0",
-                        fontsize=8,
+                        fontsize=10,
                         verticalalignment="bottom",
                         horizontalalignment="right",
                     )
@@ -419,7 +419,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     0.48,
                     0.48,
                     r"$\alpha$=0",
-                    fontsize=8,
+                    fontsize=10,
                     verticalalignment="bottom",
                     horizontalalignment="right",
                 )
@@ -427,7 +427,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     0.34,
                     0.55,
                     r"$\alpha$=>1",
-                    fontsize=8,
+                    fontsize=10,
                     verticalalignment="bottom",
                     horizontalalignment="right",
                 )
@@ -435,7 +435,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     0.42,
                     0.51,
                     r"$\alpha$=0.5",
-                    fontsize=8,
+                    fontsize=10,
                     verticalalignment="bottom",
                     horizontalalignment="right",
                 )
@@ -443,7 +443,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     0.54,
                     0.43,
                     r"$\alpha$=-0.5",
-                    fontsize=8,
+                    fontsize=10,
                     verticalalignment="bottom",
                     horizontalalignment="right",
                 )
@@ -451,7 +451,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
                     0.65,
                     0.39,
                     r"$\alpha$=<-1",
-                    fontsize=8,
+                    fontsize=10,
                     verticalalignment="bottom",
                     horizontalalignment="right",
                 )
@@ -464,7 +464,7 @@ def plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggre
     if sem == "QuadraticEnergy_model":
         mod = "Quadratic Energy"
     elif sem == "DFQuAD_model":
-        mod = "DFQuAD"
+        mod = "DF-QuAD"
     elif sem == "EulerBased_model":
         mod = "Euler Based"
     elif sem == "EulerBasedTop_model":
@@ -542,14 +542,14 @@ att(CR8, e)"""
     for sem in semantics:
 
         base_score_to_strength, aggregation_to_strength, aggregation_to_strength_over_score = compute_aggregation_and_final_strengths(sem, af, 1)
-        base_score_to_strength_multiple, aggregation_to_strength_multiple, aggregation_to_strength_over_score_multiple = compute_aggregation_and_final_strengths(sem, af_multiple, 2)
+        #base_score_to_strength_multiple, aggregation_to_strength_multiple, aggregation_to_strength_over_score_multiple = compute_aggregation_and_final_strengths(sem, af_multiple, 2)
 
         
         base_scores, strengths, aggregations_list, diffs_list, aggregations_lines_dict = compute_lines_to_plot(base_score_to_strength)
-        base_scores_multiple, strengths_multiple, aggregations_list_multiple, diffs_list_multiple, aggregations_lines_dict_multiple = compute_lines_to_plot(base_score_to_strength_multiple)
+        #base_scores_multiple, strengths_multiple, aggregations_list_multiple, diffs_list_multiple, aggregations_lines_dict_multiple = compute_lines_to_plot(base_score_to_strength_multiple)
 
         plot_everything(base_scores, strengths, aggregations_list, diffs_list, aggregations_lines_dict, "single")
-        plot_everything(base_scores_multiple, strengths_multiple, aggregations_list_multiple, diffs_list_multiple, aggregations_lines_dict_multiple, "multiple")
+        #plot_everything(base_scores_multiple, strengths_multiple, aggregations_list_multiple, diffs_list_multiple, aggregations_lines_dict_multiple, "multiple")
 
 
         

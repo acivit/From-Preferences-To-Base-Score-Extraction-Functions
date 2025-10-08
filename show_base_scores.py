@@ -53,21 +53,21 @@ with left_col:
     # Large text area for argumentation framework data
     framework_text = st.text_area(
         "Paste argumentation framework data here, please follow the provided template. Introduce the decision arguments as dec(name), the arguments as arg(name), the attacks as att(from,to), and the supports as sup(from,to):",
-        """dec(o1)
-dec(o2)
+        """dec(fast)
+dec(slow)
 arg(a)
 arg(b)
 arg(c)
 arg(d)
 arg(e)
 arg(f)
-att(a, o2)
-sup(b, o2)
+att(a, slow)
+sup(b, slow)
 sup(c, b)
 att(d, b)
 sup(e, d)
-sup(d, o1)
-att(f, o1)""",
+sup(d, fast)
+att(f, fast)""",
         height=200
         )
 
@@ -141,8 +141,8 @@ att(f, o1)""",
     elif selected_method == "Play with a b":
         scoring = "from_rank_edged_a_b"
 
-        int_a = st.number_input("Enter a (0–10):", min_value=0, max_value=10, value=0)
-        int_b = st.number_input("Enter b (0–10):", min_value=0, max_value=10, value=0)
+        int_a = st.number_input("Enter a (0–10):", min_value=-10, max_value=10, value=0)
+        int_b = st.number_input("Enter b (0–10):", min_value=-10, max_value=10, value=0)
     else:
         scoring = "from_rank"
 
