@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: base_score_extraction_functions
+    container_name: bsef
     ports:
       - "8501:8501"
     volumes:

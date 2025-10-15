@@ -103,8 +103,8 @@ att(f, fast)""",
     input_float = st.slider("δ/Δ ratio:", 0.0, 1.0, 0.5)
 
     methods = {
-        "Play with edges": r" \nu = \tau_{min}+(\tau_{max}-\tau_{min})\cdot\frac{M-r}{M-1}",
-        "Play with a b": r" \nu = \frac{M-r+a}{M-1+b}, \ \  a>0, \ \  b>0, \ \  a<b",
+        "Play with edges": r" \nu = \bot+(\top-\bot)\cdot\frac{D-d}{D-1}",
+        "Play with a b": r" \nu = \frac{D-d+a}{D-1+b}, \ \  a>0, \ \  b>0, \ \  a<b",
     }
 
     # Layout: two columns, left for radio, right for LaTeX
